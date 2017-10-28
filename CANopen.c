@@ -148,6 +148,18 @@
 #endif
 #endif
 
+uint8_t CO_sendSYNC(CO_t *CO, uint8_t sync_value_flag, uint8_t sync_value) {
+    if (sync_value_flag == 0) {
+        return CO_CANsend(CO->SYNC->CANdevTx, CO->SYNC->CANtxBuff);
+    }
+    else {
+	CO->SYNC->CANtxBuff->DLC = 1;
+        CO->SYNC->CANtxBuff->data[0] = sync_value;
+        uint8_t ret = CO_CANsend(CO->SYNC->CANdevTx, CO->SYNC->CANtxBuff);
+	CO->SYNC->CANtxBuff->DLC = 0;
+	return ret;
+    }
+}
 
 /* Helper function for NMT master *********************************************/
 #if CO_NO_NMT_MASTER == 1

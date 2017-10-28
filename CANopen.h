@@ -141,8 +141,20 @@ typedef struct{
 
 
 /** CANopen object */
-    extern CO_t *CO;
+extern CO_t *CO;
 
+
+/**
+ * Function CO_sendSYNC() is simple function to send SYNC command manually.
+ *
+ * @param CO CANopen object.
+ * @param sync_value_flag whether (0 means not) to append sync_value.
+ * @param sync_value value to be appended to SYNC command.
+ *
+ * @return 0: Operation completed successfully.
+ * @return other: same as CO_CANsend().
+ */
+uint8_t CO_sendSYNC(CO_t *CO, uint8_t sync_value_flag, uint8_t sync_value);
 
 /**
  * Function CO_sendNMTcommand() is simple function, which sends CANopen message.

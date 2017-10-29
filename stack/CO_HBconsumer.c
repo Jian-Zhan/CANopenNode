@@ -81,20 +81,19 @@ static void CO_HBcons_monitoredNodeConfig(
         uint32_t                HBconsTime)
 {
     uint16_t COB_ID;
-    uint16_t NodeID;
     CO_HBconsNode_t *monitoredNode;
 
     if(idx >= HBcons->numberOfMonitoredNodes) return;
 
-    NodeID = (uint16_t)((HBconsTime>>16)&0xFF);
     monitoredNode = &HBcons->monitoredNodes[idx];
+    monitoredNode->nodeId = (uint8_t)((HBconsTime>>16)&0xFF);
     monitoredNode->time = (uint16_t)HBconsTime;
     monitoredNode->NMTstate = 0;
     monitoredNode->monStarted = false;
 
     /* is channel used */
-    if(NodeID && monitoredNode->time){
-        COB_ID = NodeID + 0x700;
+    if(monitoredNode->nodeId && monitoredNode->time){
+        COB_ID = monitoredNode->nodeId + 0x700;
     }
     else{
         COB_ID = 0;

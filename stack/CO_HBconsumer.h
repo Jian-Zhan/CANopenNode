@@ -75,6 +75,7 @@ typedef struct{
     uint8_t             NMTstate;       /**< Of the remote node */
     bool_t              monStarted;     /**< True after reception of the first Heartbeat mesage */
     uint16_t            timeoutTimer;   /**< Time since last heartbeat received */
+    uint8_t             nodeId;         /**< Node ID from OD */
     uint16_t            time;           /**< Consumer heartbeat time from OD */
     bool_t              CANrxNew;       /**< True if new Heartbeat message received from the CAN bus */
 }CO_HBconsNode_t;

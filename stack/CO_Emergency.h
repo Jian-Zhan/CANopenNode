@@ -284,6 +284,24 @@ typedef struct{
 }CO_EM_t;
 
 
+#define DEBUG 1
+#ifdef DEBUG
+#define CO_localErrorReport(_file, _line, _func, errorBit, errorCode, infoCode) do { \
+        printf("CO_errorReport(%s %d %s())\n", _file, _line, _func);   \
+        printf("  %02X, %04X, %08X\n", errorBit, errorCode, infoCode); \
+    } \
+    while(0);
+#else
+#define CO_localErrorReport(_file, _line, _func, errorBit, errorCode, infoCode) do { \
+    } \
+    while(0);
+#endif
+
+#define CO_errorReport(em, errorBit, errorCode, infoCode) do { \
+        CO_localErrorReport(__FILE__, __LINE__, __func__, errorBit, errorCode, infoCode); \
+        _CO_errorReport(em, errorBit, errorCode, infoCode); \
+    } while(0);
+
 /**
  * Report error condition.
  *
@@ -300,7 +318,7 @@ typedef struct{
  * @param infoCode 32 bit value is passed to bytes 4...7 of the Emergency message.
  * It contains optional additional information inside emergency message.
  */
-void CO_errorReport(CO_EM_t *em, const uint8_t errorBit, const uint16_t errorCode, const uint32_t infoCode);
+void _CO_errorReport(CO_EM_t *em, const uint8_t errorBit, const uint16_t errorCode, const uint32_t infoCode);
 
 
 /**
